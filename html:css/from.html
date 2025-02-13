@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>원하는 헤어스타일</title>
+</head>
+<body>
+    <header>
+        <h1>원하는 헤어스타일</h1>
+        <p>모든 항목에 빠짐없이 체크해주십시오.</p>
+    </header>
+    <hr>
+    <main>
+        <form> 
+            <fieldset>
+                <legend>개인정보</legend>
+                <label for="name">이름</label>
+                <input type="text" 
+                name="name"
+                id="name" placeholder="본명을 입력하세요.">
+                <label for="phonenumber">전화번호</label>
+                <input type="tel" 
+                name="tel"
+                id="phonenumber" placeholder="- 제외 입력해주세요">
+                <br>
+            </fieldset>
+            <fieldset>
+                <legend>원하는 미용방식 체크</legend>
+
+                <p>현재 머리길이는 어떻게 되십니까?</p>
+                <input type="radio" id="short" name="hair">
+                <label for="short">짧은머리(머리가 귀를 덮지 않음)</label>
+                <input type="radio" id="middle" name="hair">
+                <label for="middle">단발머리(머리가 어깨를 덮지 않음)</label>
+                <input type="radio" id="long" name="hair">
+                <label for="long">긴머리(머리가 어깨 이상의 길이)</label>
+
+                <p>원하는 미용방식은 어떻게 되시나요?</p>
+                <input type="checkbox" id="cut" name="way">
+                <label for="cut">커트</label>
+                <input type="checkbox" id="perm" name="way">
+                <label for="perm">파마</label>
+                <input type="checkbox" id="magic" name="way">
+                <label for="magic">매직</label>
+                <input type="checkbox" id="advice" name="way">
+                <label for="advice">상담 후 결정</label>
+
+            </fieldset>
+            <fieldset>
+                <legend>기타 의견</legend>
+                <textarea rows="3" cols="30" name="comment"></textarea>
+            </fieldset>
+            <input type="submit">
+        </form>
+    </main>
+    <hr>
+    <footer>
+        <p>입력하느라 수고하셨습니다.</p>
+    </footer>
+</body>
+</html>
