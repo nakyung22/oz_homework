@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환영합니다</title>
+    <link href="join.css" rel="stylesheet">
+    <style>
+        /* 다크모드 및 테이블 스타일 적용 */
+        body.dark-mode {
+          background-color: #121212;
+          color: white;
+        }
+        .dark-mode .table {
+          color: white;
+        }
+        .dark-mode .form-control, .dark-mode .form-select {
+          background-color: #333;
+          color: white;
+          border: 1px solid #777;
+        }
+        /* 테이블 디자인 */
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        table th, table td {
+          padding: 12px;
+          text-align: center;
+          border: 1px solid #ddd;
+        }
+        table th {
+          background-color: #f4f4f4;
+        }
+        table tbody tr:hover {
+          background-color: #f1f1f1;
+        }
+        /* 다크모드 버튼 및 로그인/로그아웃 버튼 스타일 */
+        .buttons button, #darkModeButton {
+          padding: 10px 15px;
+          font-size: 16px;
+          cursor: pointer;
+          border: none;
+          border-radius: 5px;
+          background-color: #007bff;
+          color: white;
+        }
+        .buttons button:hover, #darkModeButton:hover {
+          background-color: #0056b3;
+        }
+        /* 페이지네이션 스타일 */
+        .pagination {
+          display: flex;
+          justify-content: center;
+          list-style-type: none;
+          padding: 0;
+        }
+        .pagination .page-item {
+          margin: 0 5px;
+        }
+        .pagination .page-link {
+          padding: 10px 15px;
+          font-size: 16px;
+          color: #007bff;
+          text-decoration: none;
+          border: 1px solid #007bff;
+          border-radius: 5px;
+        }
+        .pagination .page-item.active .page-link {
+          background-color: #007bff;
+          color: white;
+        }
+        .pagination .page-item.disabled .page-link {
+          color: #ddd;
+        }
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+          table, .pagination {
+            font-size: 14px;
+          }
+          .buttons button, #darkModeButton {
+            padding: 8px 12px;
+            font-size: 14px;
+          }
+        }
+      </style>
+</head>
+<body>
+    <div id="container" style="padding: 20px;">
+        <h1>환영합니다!</h1>
+        <p id="welcomeMessage"></p>
+        <div class="buttons" style="margin-bottom: 20px;">
+            <button onclick="logout()">로그아웃</button>
+            <button id="darkModeButton">다크 모드 전환</button>
+        </div>
+
+
+    <!-- 제품 데이터 테이블 -->
+    <div class="container mt-3">
+        <h3>제품 목록</h3>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>카테고리</th>
+                    <th>브랜드</th>
+                    <th>상품명</th>
+                    <th>가격</th>
+                    <th>성별</th>
+                </tr>
+            </thead>
+            <tbody id="product_data_Table"></tbody>
+        </table>
+
+        <!-- 페이지네이션 -->
+        <nav>
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+    </div>
+
+</div>
+
+    <script>
+       // 다크 모드 토글 함수
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            // 다크 모드 상태를 로컬 스토리지에 저장
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // 다크 모드 전환 버튼에 이벤트 추가
+        document.getElementById('darkModeButton').addEventListener('click', toggleDarkMode);
+
+        // 페이지 로드 시 다크 모드 상태 복원
+        window.onload = function() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        }
+
+        // localStorage에서 저장된 사용자 정보 불러오기
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+        // 사용자 정보가 있다면 환영 메시지 표시
+        if (userInfo) {
+            document.getElementById("welcomeMessage").innerText = `${userInfo.name}님, 반갑습니다!`;
+        } else {
+            // 만약 localStorage에 정보가 없다면 로그인 페이지로 리디렉션
+            alert("로그인 상태가 아닙니다. 로그인 페이지로 이동합니다.");
+            window.location.href = 'index.html';
+        }
+
+        // 로그아웃 함수
+        function logout() {
+            // localStorage에서 사용자 정보 삭제
+            localStorage.removeItem('userInfo');
+
+            // 로그아웃 후 로그인 페이지로 이동
+            alert("로그아웃 되었습니다.");
+            window.location.href = 'index.html';
+        }
+
+        // 제품 데이터
+        const product_data = [
+            { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티1', price: '1,390,000', gender: "female" },
+            { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티2', price: '2,390,000', gender: "male" },
+            { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티3', price: '3,390,000', gender: "male" },
+            { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠1', price: '1,188,000', gender: "female" },
+            { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠2', price: '2,188,000', gender: "female" },
+            { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠3', price: '3,188,000', gender: "male" },
+            { category: "신발", brand: 'Nike', product: '에어포스 11', price: '337,000', gender: "male" },
+            { category: "신발", brand: 'Nike', product: '에어포스 12', price: '437,000', gender: "male" },
+            { category: "신발", brand: 'Nike', product: '에어포스 13', price: '537,000', gender: "female" },
+            { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이1 키링', price: '229,000', gender: "male" },
+            { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이2 키링', price: '329,000', gender: "female" },
+            { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이3 키링', price: '429,000', gender: "female" },
+            { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이4 키링', price: '529,000', gender: "male" },
+        ];
+
+        const product_data_Table = document.getElementById('product_data_Table');
+        const itemsPerPage = 4; // 한 페이지당 보여줄 아이템 수
+        let currentPage = 1;
+
+        function renderTable(data, page = 1) {
+            product_data_Table.innerHTML = "";
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedData = data.slice(start, end);
+
+            paginatedData.forEach((item) => {
+                const row = product_data_Table.insertRow();
+                row.insertCell(0).innerHTML = item.category;
+                row.insertCell(1).innerHTML = item.brand;
+                row.insertCell(2).innerHTML = item.product;
+                row.insertCell(3).innerHTML = new Intl.NumberFormat().format(item.price); // 가격 형식 변경
+                row.insertCell(4).innerHTML = item.gender === "male" ? "남성" : "여성"; // 성별 추가
+            });
+
+            renderPagination(data.length);
+        }
+
+        function renderPagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+
+            // Previous 버튼
+            const prevLi = document.createElement("li");
+            prevLi.classList.add("page-item");
+            if (currentPage === 1) prevLi.classList.add("disabled");
+
+            const prevA = document.createElement("a");
+            prevA.classList.add("page-link");
+            prevA.href = "#";
+            prevA.innerText = "«";
+            prevA.onclick = function (e) {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable(product_data, currentPage);
+                }
+            };
+
+            prevLi.appendChild(prevA);
+            pagination.appendChild(prevLi);
+
+            // 숫자 페이지 버튼
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement("li");
+                li.classList.add("page-item");
+                if (i === currentPage) li.classList.add("active");
+
+                const a = document.createElement("a");
+                a.classList.add("page-link");
+                a.href = "#";
+                a.innerText = i;
+                a.onclick = function (e) {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderTable(product_data, currentPage);
+                };
+
+                li.appendChild(a);
+                pagination.appendChild(li);
+            }
+
+            // Next 버튼
+            const nextLi = document.createElement("li");
+            nextLi.classList.add("page-item");
+            if (currentPage === totalPages) nextLi.classList.add("disabled");
+
+            const nextA = document.createElement("a");
+            nextA.classList.add("page-link");
+            nextA.href = "#";
+            nextA.innerText = "»";
+            nextA.onclick = function (e) {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable(product_data, currentPage);
+                }
+            };
+
+            nextLi.appendChild(nextA);
+            pagination.appendChild(nextLi);
+        }
+
+        renderTable(product_data);
+    </script>
+</body>
+</html>

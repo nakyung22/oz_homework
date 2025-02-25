@@ -18,118 +18,112 @@
       color: white;
       border: 1px solid #777;
     }
+    .table tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+    .btn-secondary, .btn-primary, .btn-success {
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-weight: 600;
+    }
+    .btn-secondary:hover, .btn-primary:hover, .btn-success:hover {
+      transform: scale(1.05);
+    }
+    .form-label {
+      font-weight: 600;
+    }
+
+    .form-control, .form-select {
+      border-radius: 10px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-check-label {
+      font-weight: 500;
+    }
+
+    .shadow-lg {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 페이지네이션 스타일 */
+    .pagination .page-item.active .page-link {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    #content {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="container mt-3">
-    <div class="d-flex justify-content-between align-items-center">
-      <h3 class="mt-3 mb-3">신규 등록 상품</h3>
-      <div>
-        <span id="currentDateTime"></span> <!-- 현재 날짜 및 시간 표시 -->
-        <button class="btn btn-secondary ms-3" onclick="toggleDarkMode()">🌙 다크모드</button>
-      </div>
-    </div>
-
-    <form class="row row-cols-lg-auto g-3 align-items-center">
-      <div class="col-12">
-        <label class="visually-hidden" for="inlineFormSelectPref">카테고리</label>
-        <select class="form-select" id="inlineFormSelectPref" name="category_data_table">
-          <option value="">전체</option>
-          <option value="상의">상의</option>
-          <option value="하의">하의</option>
-          <option value="신발">신발</option>
-          <option value="패션잡화">패션잡화</option>
-        </select>
-      </div>
-      <div class="col-3">
-        <input type="text" class="form-control" id="searchInput" placeholder="상품명을 입력하세요">
-      </div>
-      <div class="col-auto">
-        <button type="button" class="btn btn-primary" onclick="filterProducts()">조회</button>
-      </div>
+  <!-- 로그인 폼 -->
+  <div id="loginForm" class="mt-4 p-4 border rounded bg-light shadow-lg" style="max-width: 500px; margin: auto;">
+    <h4 class="text-center mb-3">로그인</h4>
+    <form id="loginFormContent">
+        <div class="mb-3">
+            <label for="loginId" class="form-label">아이디</label>
+            <input type="text" class="form-control" id="loginId" name="loginId" placeholder="아이디 입력">
+        </div>
+        <div class="mb-3">
+            <label for="loginPw" class="form-label">비밀번호</label>
+            <input type="password" class="form-control" id="loginPw" name="loginPw" placeholder="비밀번호 입력">
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">로그인</button>
+        </div>
     </form>
-
-    <div class="mt-3">
-      <label for="genderSelect">성별 선택:</label>
-      <select class="form-select w-auto d-inline-block" id="genderSelect">
-        <option value="all">전체</option>
-        <option value="male">남성</option>
-        <option value="female">여성</option>
-      </select>
-    </div>
-
-    <div class="mt-3">
+    <!-- 회원가입 버튼 추가 -->
+  <div class="text-center mt-3">
+    <!-- <button class="btn btn-link" onclick="toggleSignUpForm()">회원가입</button> -->
+    <a href="join.html">회원가입</a>
+  </div>
+  </div>
+<!-- 다크모드 및 회원가입 등 관리 페이지 UI -->
+<div id="content" class="container mt-3">
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="mt-3 mb-3">신규 등록 상품</h3>
+    <div>
+      <form class="row row-cols-lg-auto g-3 align-items-center">
+      </form>
+      <span id="currentDateTime"></span> <!-- 현재 날짜 및 시간 표시 -->
+      <button class="btn btn-secondary ms-3" onclick="toggleDarkMode()">🌙 다크모드</button>
       <button class="btn btn-success" onclick="toggleSignUpForm()">회원가입</button>
     </div>
 
-<!-- 회원가입 폼 -->
-    <div id="signUpForm" class="mt-4 p-4 border rounded bg-light shadow-lg" style="display: none; max-width: 500px; margin: auto;">
-        <h4 class="text-center mb-3">회원가입</h4>
-        <form id="joinForm">
-        <div class="mb-3">
-            <label for="id" class="form-label">아이디</label>
-            <input type="text" class="form-control" id="id" name="id" placeholder="아이디 입력">
-        </div>
-        <div class="mb-3">
-            <label for="pw1" class="form-label">비밀번호</label>
-            <input type="password" class="form-control" id="pw1" name="pw1" placeholder="비밀번호 입력">
-        </div>
-        <div class="mb-3">
-            <label for="pw2" class="form-label">비밀번호 확인</label>
-            <input type="password" class="form-control" id="pw2" name="pw2" placeholder="비밀번호 확인">
-        </div>
-        <div class="mb-3">
-            <label for="name" class="form-label">이름</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="이름 입력">
-        </div>
-        <div class="mb-3">
-            <label for="phone" class="form-label">전화번호</label>
-            <input type="tel" class="form-control" id="phone" name="phone" placeholder="휴대전화 번호">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">성별</label>
-            <div class="d-flex gap-3">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
-                <label class="form-check-label" for="male">남자</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                <label class="form-check-label" for="female">여자</label>
-            </div>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">이메일</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="이메일 입력">
-        </div>
-        <div class="d-grid">
-            <button type="submit" id="btn_submit" class="btn btn-primary">가입</button>
-        </div>
-        </form>
-    </div>
-
-    <div class="container mt-3">
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th>카테고리</th>
-            <th>브랜드</th>
-            <th>상품명</th>
-            <th>가격</th>
-          </tr>
-        </thead>
-        <tbody id="product_data_Table"></tbody>
-      </table>
-
-      <!-- 페이지네이션 -->
-      <nav>
-        <ul class="pagination justify-content-center" id="pagination"></ul>
-      </nav>
-    </div>
-  </div>
-
   <script>
+    // 로그인 폼 처리
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const loginId = document.getElementById('loginId').value.trim();
+      const loginPw = document.getElementById('loginPw').value.trim();
+
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+    // 아이디와 비밀번호 비교
+      if (userInfo.id == loginId && userInfo.pw == loginPw) {
+          alert("로그인 성공!");
+          window.location.href = "welcome.html";  // 로그인 후 이동할 페이지
+      } else {
+          alert("아이디나 비밀번호가 일치하지 않습니다.");
+      }
+  });
+    // 다크 모드 기능
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      const isDarkMode = document.body.classList.contains("dark-mode");
+      localStorage.setItem("darkMode", isDarkMode);
+    }
+    // 페이지 로드 시 다크 모드 설정 확인
+        if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+    }
+    // 회원가입 폼 토글
+    function toggleSignUpForm() {
+      const form = document.getElementById("signUpForm");
+      form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+    }
     // 현재 날짜 및 시간 업데이트
     function updateDateTime() {
       const now = new Date();
@@ -137,103 +131,6 @@
     }
     setInterval(updateDateTime, 1000);
     updateDateTime();
-
-    // 다크 모드 기능
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-      const isDarkMode = document.body.classList.contains("dark-mode");
-      localStorage.setItem("darkMode", isDarkMode);
-    }
-
-    // 페이지 로드 시 다크 모드 설정 확인
-    if (localStorage.getItem("darkMode") === "true") {
-      document.body.classList.add("dark-mode");
-    }
-
-    // 회원가입 폼 토글
-    function toggleSignUpForm() {
-      const form = document.getElementById("signUpForm");
-      form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
-    }
-
-    // 제품 데이터
-    const product_data = [
-    { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티1', price: '1390,000' },
-      { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티2', price: '2390,000' },
-      { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티3', price: '3390,000' },
-
-      { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠1', price: '1,188,000' },
-      { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠2', price: '2,188,000' },
-      { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠3', price: '3,188,000' },
-
-      { category: "신발", brand: 'Nike', product: '에어포스 11', price: '337,000' },
-      { category: "신발", brand: 'Nike', product: '에어포스 12', price: '437,000' },
-      { category: "신발", brand: 'Nike', product: '에어포스 13', price: '537,000' },
-
-      { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이1 키링', price: '229,000' },
-      { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이2 키링', price: '329,000' },
-      { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이3 키링', price: '429,000' },
-      { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이4 키링', price: '529,000' },
-
-    ];
-
-const product_data_Table = document.getElementById('product_data_Table');
-    const itemsPerPage = 4; // 한 페이지당 보여줄 아이템 수
-    let currentPage = 1;
-
-    function renderTable(data, page = 1) {
-      product_data_Table.innerHTML = "";
-      const start = (page - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      const paginatedData = data.slice(start, end);
-
-      paginatedData.forEach((item) => {
-        const row = product_data_Table.insertRow();
-        row.insertCell(0).innerHTML = item.category;
-        row.insertCell(1).innerHTML = item.brand;
-        row.insertCell(2).innerHTML = item.product;
-        row.insertCell(3).innerHTML = item.price;
-      });
-
-      renderPagination(data.length);
-    }
-
-    function renderPagination(totalItems) {
-      const totalPages = Math.ceil(totalItems / itemsPerPage);
-      const pagination = document.getElementById("pagination");
-      pagination.innerHTML = "";
-
-      for (let i = 1; i <= totalPages; i++) {
-        const li = document.createElement("li");
-        li.classList.add("page-item");
-        if (i === currentPage) li.classList.add("active");
-        
-        const a = document.createElement("a");
-        a.classList.add("page-link");
-        a.href = "#";
-        a.innerText = i;
-        a.onclick = function () {
-          currentPage = i;
-          renderTable(product_data, currentPage);
-        };
-
-        li.appendChild(a);
-        pagination.appendChild(li);
-      }
-    }
-
-    function filterProducts() {
-      const category = document.getElementById("inlineFormSelectPref").value;
-      const searchQuery = document.getElementById("searchInput").value.toLowerCase();
-
-      const filteredData = product_data.filter(item =>
-        (category === "" || item.category === category) &&
-        (searchQuery === "" || item.product.toLowerCase().includes(searchQuery))
-      );
-
-      currentPage = 1;
-      renderTable(filteredData, currentPage);
-    }
 
     // 회원가입 폼 제출 버튼에 이벤트 리스너 추가
     document.getElementById('btn_submit').addEventListener('click', function(event) {
@@ -261,11 +158,11 @@ const product_data_Table = document.getElementById('product_data_Table');
         }
 
     // 비밀번호 유효성 검사 (최소 8자 이상, 영문+숫자 포함)
-    const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        if (!pwRegex.test(pw1)) {
-            alert("비밀번호는 최소 8자 이상이며, 영문과 숫자를 포함해야 합니다.");
-            return;
-        }
+    const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,30}$/;
+    if (!pwRegex.test(pw1)) {
+        alert("비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상 30자 미만이어야 합니다.");
+        return;
+    }
 
     // 비밀번호 확인
     if (pw1 !== pw2) {
